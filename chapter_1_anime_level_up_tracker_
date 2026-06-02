@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 1: Solo Leveling Blueprint</title>
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <link href="[https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap](https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap)" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #090d16;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(14, 116, 144, 0.15) 0, transparent 50%),
+                radial-gradient(at 50% 0%, rgba(99, 102, 241, 0.15) 0, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0, transparent 50%);
+            background-attachment: fixed;
+        }
+       .header-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+       .neon-glow {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.35);
+        }
+       .neon-border {
+            border-color: rgba(6, 182, 212, 0.4);
+        }
+       .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+       .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen pb-12">
+
+    <div id="level-up-banner" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md transition-all duration-500">
+        <div class="text-center transform scale-95 animate-bounce">
+            <h1 class="header-font text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-600 tracking-widest drop-shadow-[0_0_30px_rgba(6,182,212,0.8)]">LEVEL UP!</h1>
+            <p class="text-xl md:text-3xl text-amber-400 font-bold tracking-wider mt-4">YOUR SOUL HAS TRANSITIONED TO A NEW TIER</p>
+            <p id="new-rank-text" class="text-cyan-400 text-lg md:text-xl mt-2 font-mono">Rank: Obese Neophyte -> Challenger Class</p>
+            <button onclick="closeLevelUpModal()" class="mt-8 px-8 py-3 bg-gradient-to-r from-cyan-500 to-indigo-600 text-white font-bold rounded-lg border border-cyan-400/50 hover:from-cyan-400 hover:to-indigo-500 transition-all duration-300 transform hover:scale-105 shadow-[0_0_20px_rgba(6,182,212,0.5)]">CONTINUE TRAINING</button>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        
+        <header class="flex flex-col md:flex-row justify-between items-center bg-slate-900/80 border border-slate-800 rounded-2xl p-6 mb-8 backdrop-blur-md">
+            <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                <div class="relative w-16 h-16 rounded-full bg-gradient-to-tr from-cyan-500 to-purple-600 p-1 shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+                    <div class="w-full h-full bg-[#090d16] rounded-full flex items-center justify-center">
+                        <span id="avatar-initial" class="header-font text-2xl font-bold text-cyan-400">SD</span>
+                    </div>
+                    <div class="absolute -bottom-1 -right-1 bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded text-xs header-font" id="char-level-badge">LV 1</div>
+                </div>
+                <div>
+                    <h1 class="header-font text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">CHAPTER 1: SOLO LEVELING</h1>
+                    <p id="char-rank" class="text-sm font-bold text-slate-400 tracking-widest uppercase">Rank: Obese Neophyte</p>
+                </div>
+            </div>
+
+            <div class="w-full md:w-96">
+                <div class="flex justify-between items-center mb-1 text-sm font-bold">
+                    <span class="text-cyan-400">EXP PROGRESS</span>
+                    <span id="xp-text" class="font-mono text-amber-400">0 / 100 XP</span>
+                </div>
+                <div class="w-full bg-slate-800 h-4 rounded-full overflow-hidden border border-slate-700 p-0.5">
+                    <div id="xp-bar" class="bg-gradient-to-r from-cyan-500 to-indigo-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <div class="lg:col-span-4 space-y-8">
+                
+                <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-md relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-cyan-500/5 rounded-full blur-2xl"></div>
+                    <h2 class="header-font text-lg font-bold text-cyan-400 tracking-wide border-b border-slate-800 pb-3 mb-4">CHARACTER ATTRIBUTES</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between items-center mb-1 text-sm font-bold">
+                                <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-2"></span>STAMINA</span>
+                                <span id="stat-stamina" class="font-mono text-emerald-400">10 / 100</span>
+                            </div>
+                            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                <div id="bar-stamina" class="bg-emerald-500 h-full transition-all duration-500" style="width: 10%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-1 text-sm font-bold">
+                                <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 mr-2"></span>LIVER HEALTH</span>
+                                <span id="stat-liver" class="font-mono text-amber-400">10 / 100</span>
+                            </div>
+                            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                <div id="bar-liver" class="bg-amber-500 h-full transition-all duration-500" style="width: 10%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-1 text-sm font-bold">
+                                <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-pink-500 mr-2"></span>SKIN &amp; HAIR</span>
+                                <span id="stat-skinhair" class="font-mono text-pink-400">10 / 100</span>
+                            </div>
+                            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                <div id="bar-skinhair" class="bg-pink-500 h-full transition-all duration-500" style="width: 10%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-1 text-sm font-bold">
+                                <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-purple-500 mr-2"></span>FOCUS / MINDSET</span>
+                                <span id="stat-mindset" class="font-mono text-purple-400">10 / 100</span>
+                            </div>
+                            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                <div id="bar-mindset" class="bg-purple-500 h-full transition-all duration-500" style="width: 10%"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-1 text-sm font-bold">
+                                <span class="flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-cyan-500 mr-2"></span>TECH MASTERY</span>
+                                <span id="stat-tech" class="font-mono text-cyan-400">10 / 100</span>
+                            </div>
+                            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                <div id="bar-tech" class="bg-cyan-500 h-full transition-all duration-500" style="width: 10%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-md relative overflow-hidden">
+                    <h2 class="header-font text-lg font-bold text-cyan-400 tracking-wide border-b border-slate-800 pb-3 mb-4">ACTIVE BUFFS &amp; STREAKS</h2>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800 text-center">
+                            <span class="block text-slate-400 text-xs font-bold tracking-wider mb-1">NO-SMOKE STREAK</span>
+                            <span id="smoke-streak" class="header-font text-3xl font-black text-emerald-400">0 Days</span>
+                            <button onclick="incrementStreak('noSmoke')" class="mt-2 w-full py-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-xs rounded border border-emerald-500/30 transition">Add 1 Day</button>
+                        </div>
+                        <div class="bg-slate-950/80 p-4 rounded-xl border border-slate-800 text-center">
+                            <span class="block text-slate-400 text-xs font-bold tracking-wider mb-1">DOPAMINE HARD RESET</span>
+                            <span id="dopamine-streak" class="header-font text-3xl font-black text-purple-400">0 Days</span>
+                            <button onclick="incrementStreak('dopamineReset')" class="mt-2 w-full py-1 bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 text-xs rounded border border-purple-500/30 transition">Add 1 Day</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-md">
+                    <h2 class="header-font text-lg font-bold text-cyan-400 tracking-wide border-b border-slate-800 pb-3 mb-4">SOLO LEVELING KNOWLEDGE DATABASE</h2>
+                    <p class="text-xs text-slate-400 mb-4">Access deep-dive clinical analysis, metabolic rate formulas, and systems engineering blueprints from your core research.</p>
+                    <div class="space-y-2">
+                        <button onclick="openRefModal('clinical')" class="w-full py-2.5 px-4 bg-slate-950/50 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-cyan-400 text-left text-sm rounded-xl transition flex justify-between items-center">
+                            <span>Clinical Lab Diagnostic Report [1]</span>
+                            <span class="text-cyan-400">&rarr;</span>
+                        </button>
+                        <button onclick="openRefModal('metabolic')" class="w-full py-2.5 px-4 bg-slate-950/50 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-cyan-400 text-left text-sm rounded-xl transition flex justify-between items-center">
+                            <span>Metabolic &amp; Nutrition Guidelines [2, 3]</span>
+                            <span class="text-cyan-400">&rarr;</span>
+                        </button>
+                        <button onclick="openRefModal('scalpPelvic')" class="w-full py-2.5 px-4 bg-slate-950/50 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-cyan-400 text-left text-sm rounded-xl transition flex justify-between items-center">
+                            <span>Scalp &amp; Pelvic Floor Routines [4, 5]</span>
+                            <span class="text-cyan-400">&rarr;</span>
+                        </button>
+                        <button onclick="openRefModal('engineering')" class="w-full py-2.5 px-4 bg-slate-950/50 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-cyan-400 text-left text-sm rounded-xl transition flex justify-between items-center">
+                            <span>Applied AI &amp; SDI Roadmaps [6, 7]</span>
+                            <span class="text-cyan-400">&rarr;</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="lg:col-span-8 space-y-8">
+                
+                <div class="flex flex-wrap justify-between items-center bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-md">
+                    <div>
+                        <h2 class="header-font text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">DAILY TRAINING LOG</h2>
+                        <p class="text-sm text-slate-400">Complete quests to earn EXP and upgrade specific attributes!</p>
+                    </div>
+                    <div class="flex space-x-2 mt-4 sm:mt-0">
+                        <button onclick="resetDaily()" class="px-5 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold text-sm rounded-xl border border-rose-500/30 transition">
+                            Reset Daily Progress
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-md">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3 mb-6">
+                        <h3 class="header-font text-lg font-bold text-slate-200">ACTIVE MISSIONS</h3>
+                        <span id="quests-completed" class="text-xs font-mono bg-indigo-500/10 text-indigo-400 px-3 py-1 rounded-full border border-indigo-500/20">0 / 17 COMPLETED</span>
+                    </div>
+
+                    <div id="quest-list" class="space-y-3 max-h-[600px] overflow-y-auto scrollbar-hide pr-1">
+                        </div>
+                </div>
+
+                <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 backdrop-blur-md">
+                    <h3 class="header-font text-lg font-bold text-slate-200 border-b border-slate-800 pb-3 mb-4">SYSTEM NOTIFICATION HISTORY</h3>
+                    <div id="system-log" class="space-y-2 h-40 overflow-y-auto font-mono text-xs text-slate-400 pr-1">
+                        <div class="text-cyan-400"> Initialization completed. Begin your Chapter 1 transformation today.</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="db-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
+        <div class="bg-[#111827] border border-slate-800 max-w-4xl w-full max-h-[85vh] rounded-2xl overflow-hidden flex flex-col shadow-2xl">
+            <div class="flex justify-between items-center p-6 border-b border-slate-800">
+                <h3 id="modal-title" class="header-font text-xl font-bold text-cyan-400">DATABASE MODAL</h3>
+                <button onclick="closeRefModal()" class="text-slate-400 hover:text-white font-black text-2xl">&times;</button>
+            </div>
+            <div id="modal-content" class="p-6 overflow-y-auto text-slate-300 text-sm space-y-6 leading-relaxed">
+                </div>
+            <div class="p-4 bg-slate-950 border-t border-slate-800 flex justify-end">
+                <button onclick="closeRefModal()" class="px-6 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition text-sm">Close Archive</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const audioCtx = new (window.AudioContext |
+
+| window.webkitAudioContext)();
+        function playQuestSound() {
+            try {
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.type = "sine";
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1); // A5
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.2);
+            } catch(e) {}
+        }
+
+        function playLevelUpSound() {
+            try {
+                let now = audioCtx.currentTime;
+                [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+                    let osc = audioCtx.createOscillator();
+                    let gain = audioCtx.createGain();
+                    osc.type = "sawtooth";
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+                    gain.gain.setValueAtTime(0.04, now + idx * 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.3);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now + idx * 0.08);
+                    osc.stop(now + idx * 0.08 + 0.3);
+                });
+            } catch(e) {}
+        }
+    </script>
+
+    <script>
+        // CORE APPLICATION STATE
+        let appState = {
+            level: 1,
+            xp: 0,
+            stats: {
+                stamina: 10,
+                liver: 10,
+                skinhair: 10,
+                mindset: 10,
+                tech: 10
+            },
+            streaks: {
+                noSmoke: 0,
+                dopamineReset: 0
+            },
+            completedToday: {},
+            history:
+        };
+
+        // SCHEDULE DEFINITIONS MATCHING THE CONTEXT
+        const quests =" },
+            { id: "morningCardio", time: "07:00 AM", title: "Morning Cardio (Skip Rope / Bike)", xp: 10, stat: "stamina", desc: "Activate physical vascular circulation. Induce cilia clearance to cough out tar and black mucus.[8, 1]" },
+            { id: "scalpS1", time: "07:30 AM", title: "Standardized Scalp Massage (Session 1)", xp: 5, stat: "skinhair", desc: "Apply peptide serum. Execute 20 mins of hand-pinches, circular presses, and targeted stretching.[4]" },
+            { id: "sunlightBreath", time: "07:50 AM", title: "Sunlight Exposure & Breathwork", xp: 5, stat: "mindset", desc: "Synthesize natural D3 via 20 mins sunlight. Deploy slow diaphragmatic breathing to re-inflate alveoli.[4, 5]" },
+            { id: "workB1", time: "08:30 AM", title: "Paychex Remote Work - Block 1", xp: 15, stat: "tech", desc: "Commit high-integrity code to your backend repositories and tools. Keep zero-calorie oral fixes ready for focus.[1]" },
+            { id: "sdiStar", time: "11:30 AM", title: "Technical Prep (System Design / STAR)", xp: 10, stat: "tech", desc: "Mon/Wed/Fri: Scalability, load balancing, sharding. Tue/Thu: Core STAR portfolio logs.[9, 7]" },
+            { id: "medLunch", time: "12:00 PM", title: "Metabolic Mediterranean Lunch", xp: 5, stat: "liver", desc: "50% non-starchy green vegetables, 25% grilled chicken, 25% whole grains. Brew 1 cup unsweetened black coffee.[3, 10]" },
+            { id: "workB2", time: "01:00 PM", title: "Paychex Remote Work - Block 2", xp: 15, stat: "tech", desc: "Participate in scrum, debug tool pipelines, deploy local nodes, and finish task backlogs.[1]" },
+            { id: "hiitWaist", time: "03:00 PM", title: "Core & Waist HIIT Workout", xp: 8, stat: "stamina", desc: "Targeted 30 mins fast-paced cardio on yoga mat. Build high-intensity cardiovascular endurance.[1]" },
+            { id: "aiPractice", time: "03:30 PM", title: "Applied AI & ML Practice", xp: 12, stat: "tech", desc: "Build agentic pipelines. Set up StateGraphs, conditional logic workflows, and tool bindings in LangGraph.[6, 11]" },
+            { id: "leetCode", time: "04:30 PM", title: "NeetCode 150 / DSA Problem Solving", xp: 12, stat: "tech", desc: "Solve and review 2 to 3 high-yield algorithm problems. Map arrays, pointers, and hash maps.[9, 12]" },
+            { id: "gymSession", time: "06:30 PM", title: "Heavy Resistance Strength Training", xp: 15, stat: "stamina", desc: "Execute progressive compound muscle-building. Expect benign transaminase leakage for muscle repair.[8, 13]" },
+            { id: "athleteFeast", time: "07:30 PM", title: "High-Protein Dinner & Smoothie", xp: 5, stat: "liver", desc: "Home Bihari curry with chicken. Blend whey protein powder with mangoes & bananas to exceed 100g protein.[1]" },
+            { id: "scalpS2", time: "08:30 PM", title: "Standardized Scalp Massage (Session 2)", xp: 5, stat: "skinhair", desc: "Finalize capillary dilation. Repeat 20 mins of regional tension release across temporal sectors.[4]" },
+            { id: "pelvicReverse", time: "08:50 PM", title: "Dopamine Reset & Pelvic Floor Flow", xp: 8, stat: "mindset", desc: "10 mins Reverse Kegels (perineum drop-down to resolve hypertonicity) + 10 mins hip-mobility work.[5, 14]" },
+            { id: "pmSkin", time: "09:10 PM", title: "PM Skin Care & Jawline Gua Sha", xp: 5, stat: "skinhair", desc: "PM Cetaphil cleanse. Stroke Gua Sha along jawline & neck to drain lymph nodes. Keep off active acne.[1]" },
+            { id: "sleepMode", time: "09:30 PM", title: "Screen-Free Wind Down & Sleep", xp: 10, stat: "mindset", desc: "Shut down monitors. Secure 8 hours of deep biological recovery for cellular tissue repair.[8, 1]" }
+        ];
+
+        // LOAD STATE FROM LOCALSTORAGE ON BOOT
+        function loadState() {
+            const saved = localStorage.getItem("solo_leveling_state");
+            if (saved) {
+                appState = JSON.parse(saved);
+                // Backward compatibility checks
+                if(!appState.streaks) appState.streaks = { noSmoke: 0, dopamineReset: 0 };
+            }
+            renderStats();
+            renderQuests();
+        }
+
+        // SAVE STATE
+        function saveState() {
+            localStorage.setItem("solo_leveling_state", JSON.stringify(appState));
+        }
+
+        // RENDER ATTRIBUTES AND EXP BAR
+        function renderStats() {
+            // Level and Title Tiers
+            document.getElementById("char-level-badge").innerText = `LV ${appState.level}`;
+            
+            let title = "Obese Neophyte";
+            if (appState.level >= 5 && appState.level < 10) title = "Grit Initiate";
+            else if (appState.level >= 10 && appState.level < 15) title = "Challenger Class";
+            else if (appState.level >= 15 && appState.level < 20) title = "Elite Athlete-Engineer";
+            else if (appState.level >= 20) title = "Divine S-Tier";
+            
+            document.getElementById("char-rank").innerText = `Rank: ${title}`;
+
+            // EXP Progress
+            document.getElementById("xp-text").innerText = `${appState.xp} / 100 XP`;
+            document.getElementById("xp-bar").style.width = `${appState.xp}%`;
+
+            // Core Stats
+            const stats = ["stamina", "liver", "skinhair", "mindset", "tech"];
+            stats.forEach(s => {
+                document.getElementById(`stat-${s}`).innerText = `${appState.stats[s]} / 100`;
+                document.getElementById(`bar-${s}`).style.width = `${appState.stats[s]}%`;
+            });
+
+            // Streaks
+            document.getElementById("smoke-streak").innerText = `${appState.streaks.noSmoke} Days`;
+            document.getElementById("dopamine-streak").innerText = `${appState.streaks.dopamineReset} Days`;
+        }
+
+        // INCREMENT TRAIT BUFFS
+        function incrementStreak(type) {
+            appState.streaks[type] += 1;
+            logSystemEvent(` Streak Updated: ${type === 'noSmoke'? 'No-Smoke' : 'Dopamine Hard Reset'} reaches ${appState.streaks[type]} days!`);
+            saveState();
+            renderStats();
+        }
+
+        // QUEST CHECKLIST RENDERER
+        function renderQuests() {
+            const listContainer = document.getElementById("quest-list");
+            listContainer.innerHTML = "";
+            let completedCount = 0;
+
+            quests.forEach(q => {
+                const isChecked = appState.completedToday[q.id]? "checked" : "";
+                if (isChecked) completedCount++;
+
+                const questCard = document.createElement("div");
+                questCard.className = `flex items-start justify-between p-4 rounded-xl border transition duration-300 ${isChecked? 'bg-slate-950/40 border-slate-800' : 'bg-slate-900/40 border-slate-800/80 hover:border-cyan-500/30'}`;
+                
+                questCard.innerHTML = `
+                    <div class="flex items-start space-x-3">
+                        <input type="checkbox" onchange="toggleQuest('${q.id}')" ${isChecked} class="mt-1 w-5 h-5 rounded border-slate-700 bg-slate-950 text-cyan-500 focus:ring-cyan-500/50 focus:ring-offset-slate-950">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-xs font-mono font-bold text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded">${q.time}</span>
+                                <h4 class="text-sm font-bold tracking-wide text-slate-100 ${isChecked? 'line-through text-slate-500' : ''}">${q.title}</h4>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">${q.desc}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="block text-xs font-mono text-indigo-400 font-bold">+${q.xp} XP</span>
+                        <span class="block text-[10px] font-mono text-emerald-400 uppercase">+1 ${q.stat}</span>
+                    </div>
+                `;
+                listContainer.appendChild(questCard);
+            });
+
+            document.getElementById("quests-completed").innerText = `${completedCount} / ${quests.length} COMPLETED`;
+        }
+
+        // TOGGLE INDIVIDUAL QUEST ACTION
+        function toggleQuest(id) {
+            const quest = quests.find(q => q.id === id);
+            if (!quest) return;
+
+            if (appState.completedToday[id]) {
+                // Remove rewards
+                delete appState.completedToday[id];
+                appState.xp = Math.max(0, appState.xp - quest.xp);
+                appState.stats[quest.stat] = Math.max(10, appState.stats[quest.stat] - 1);
+                logSystemEvent(` Task unchecked: ${quest.title}. Lost ${quest.xp} XP.`);
+            } else {
+                // Add rewards
+                appState.completedToday[id] = true;
+                appState.xp += quest.xp;
+                appState.stats[quest.stat] = Math.min(100, appState.stats[quest.stat] + 1);
+                playQuestSound();
+                logSystemEvent(` Quest finished: ${quest.title}! +${quest.xp} XP, +1 ${quest.stat.toUpperCase()}`);
+
+                if (appState.xp >= 100) {
+                    levelUp();
+                }
+            }
+
+            saveState();
+            renderStats();
+            renderQuests();
+        }
+
+        // LEVEL UP LOGIC
+        function levelUp() {
+            appState.level += 1;
+            appState.xp = appState.xp - 100; // roll over XP
+            playLevelUpSound();
+            
+            // Render new Rank visual upgrade text
+            let currentTitle = "Obese Neophyte";
+            let nextTitle = "Grit Initiate";
+            if (appState.level >= 5 && appState.level < 10) { currentTitle = "Grit Initiate"; nextTitle = "Challenger Class"; }
+            else if (appState.level >= 10 && appState.level < 15) { currentTitle = "Challenger Class"; nextTitle = "Elite Athlete-Engineer"; }
+            else if (appState.level >= 15) { currentTitle = "Elite Athlete-Engineer"; nextTitle = "Divine S-Tier"; }
+            
+            document.getElementById("new-rank-text").innerText = `Rank: ${currentTitle} -> ${nextTitle}`;
+            document.getElementById("level-up-banner").classList.remove("hidden");
+            logSystemEvent(` LEVEL UP! You reached LEVEL ${appState.level}!`);
+        }
+
+        function closeLevelUpModal() {
+            document.getElementById("level-up-banner").classList.add("hidden");
+        }
+
+        // LOGGING SYSTEM MECHANIC
+        function logSystemEvent(msg) {
+            const logContainer = document.getElementById("system-log");
+            const timestamp = new Date().toLocaleTimeString();
+            logContainer.innerHTML = `<div class="mb-1"><span class="text-slate-500">[${timestamp}]</span> ${msg}</div>` + logContainer.innerHTML;
+        }
+
+        // RESET PROGRESS FOR NEW DAY
+        function resetDaily() {
+            if (confirm("Are you ready to lock in your daily quests and clear the training log for a new day of optimization? This does not wipe your stats or level progress.")) {
+                appState.completedToday = {};
+                logSystemEvent(" Training log reset completed. A new loop begins.");
+                saveState();
+                renderQuests();
+            }
+        }
+
+        // KNOWLEDGE DATABASE TEMPLATES & RENDER ENGINE
+        const referenceDatabase = {
+            clinical: {
+                title: "CLINICAL LAB DIAGNOSTIC ARCHIVE",
+                content: `
+                    <div class="space-y-4">
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-850">
+                            <h4 class="font-bold text-cyan-400 mb-2">Subject Metrics Summary [1]</h4>
+                            <ul class="space-y-1 text-xs">
+                                <li><strong>BMI:</strong> $31.49 \\text{ kg/m}^2$ (Obesity Class I Range)</li>
+                                <li><strong>Fasting Blood Glucose:</strong> $97.92 \\text{ mg/dL}$ (Upper Limit of Normal)</li>
+                                <li><strong>Leukocytes (WBC):</strong> $11.26 \\times 10^3/\\mu\\text{L}$ (Elevated Leukocytosis)</li>
+                                <li><strong>SGPT/ALT:</strong> $85.26 \\text{ U/L}$ (Borderline Liver stress; ULN is $41 \\text{ U/L}$)</li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-slate-200">The Transaminase Skeletal Leakage Warning [8]</h4>
+                            <p class="text-xs text-slate-400">ALT and AST are often classified as "liver-specific", but they reside abundantly in skeletal muscle tissues. Intense eccentric lifting creates micro-tears in the muscle cell membranes (sarcolemma), leaking ALT directly into the bloodstream.</p>
+                            <p class="text-xs text-slate-400 font-bold text-amber-400">&bull; Timeline of Leakage: Rises within 48 hours post-workout, peaks between 4 to 7 days, and takes 10 to 12 days of complete physical rest to fully normalize. Ensure a 10-day training rest before repeat blood draws to evaluate true liver function.</p>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-slate-200">Toxic Tobacco Pathology [15, 16, 17]</h4>
+                            <p class="text-xs text-slate-400">Chronically inhaling tobacco smoke damages blood capillaries and alveolar tissue, raising circulating leukocytes, lymphocytes, and monocytes by $20\\%\\text{--}25\\%$. Quitting cold turkey instantly triggers mucosal expulsion (purging black gunk) as your bronchial cilia recover. High water intake is vital to soothe withdrawal irritation.[1]</p>
+                        </div>
+                    </div>
+                `
+            },
+            metabolic: {
+                title: "METABOLIC & NUTRITIONBLUEPRINT",
+                content: `
+                    <div class="space-y-4">
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-850">
+                            <h4 class="font-bold text-cyan-400 mb-2">Equation Calculations [2, 18]</h4>
+                            <p class="text-xs mb-2">Using Mifflin-St Jeor formula for a 91kg, 170cm, 20-year-old male:</p>
+                            <div class="p-2 bg-[#090d16] font-mono text-center text-xs text-amber-400 rounded">
+                                BMR = 10 &times; 91 + 6.25 &times; 170 - 5 &times; 20 + 5 = 1877.5 kcal/day
+                            </div>
+                            <ul class="text-xs space-y-1 mt-3">
+                                <li>&bull; <strong>Sedentary TDEE:</strong> 2253.00 kcal/day [19]</li>
+                                <li>&bull; <strong>Active TDEE (Phase B):</strong> 2910.13 kcal/day [19]</li>
+                                <li>&bull; <strong>Target Deficit:</strong> 1500 to 1800 kcal/day (safe, aggressive fat loss to clear liver fat)</li>
+                            </ul>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-slate-200">The Mediterranean Plate Method [3, 10]</h4>
+                            <ul class="space-y-2 text-xs">
+                                <li><strong class="text-amber-400">Inclusions:</strong> Extra virgin olive oil (rich in monounsaturated fats), skinless chicken curry, egg whites, non-starchy cruciferous greens (broccoli, spinach), avocado, mangoes/bananas in protein smoothies, coffee (2-3 cups/day to limit liver scarring).[20]</li>
+                                <li><strong class="text-rose-400">Exclusions:</strong> Processed meats, sausages, white sugars, trans fats, saturated fats, fast food, and alcohol.[21, 10]</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            scalpPelvic: {
+                title: "SCALP & PELVIC FLOOR ROUTINE MANUAL",
+                content: `
+                    <div class="space-y-4">
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-cyan-400">4-Phase Standardized Scalp Massage (SSM) [4]</h4>
+                            <p class="text-xs">Twice-daily, 20-minute mechanical stimulation sessions spaced 12 hours apart to dilate superficial micro-capillaries [22]:</p>
+                            <ol class="space-y-2 text-xs list-decimal pl-5">
+                                <li><strong>Warm-up (3 Mins):</strong> Broad, circular sweeps from hairline to neck with both palms using 5-10 lbs of downward force.[4]</li>
+                                <li><strong>Scalp Skin Pinches (6 Mins):</strong> Grip-spacing 1-2 inches apart, pinching temporal zones under 5-10 lbs pressure, hold 1-2 seconds.[4]</li>
+                                <li><strong>Scalp Skin Presses (6 Mins):</strong> Plant knuckles or palms under 10-20 lbs pressure, rotate firm circles to slide scalp skin over bone.[4]</li>
+                                <li><strong>Scalp Skin Stretches (5 Mins):</strong> Spread fingers outward with gentle tension to stretch the tissue bed.[23, 4]</li>
+                            </ol>
+                        </div>
+
+                        <div class="space-y-2 border-t border-slate-800 pt-3">
+                            <h4 class="font-bold text-cyan-400">Pelvic Floor Drops (Reverse Kegels) [5, 14]</h4>
+                            <p class="text-xs">Lengthening and relaxing hypertonic pelvic muscles to boost blood flow, prevent premature triggers, and optimize stamina:</p>
+                            <ul class="space-y-1.5 text-xs">
+                                <li>&bull; <strong>Setup:</strong> Lie on back on yoga mat, knees bent, feet flat to isolate muscles with zero gravitational load.[5]</li>
+                                <li>&bull; <strong>Diaphragmatic Inhale:</strong> Breathe slow and deep. Expand the belly, directing downward pressure to soften pelvic tissues.[5]</li>
+                                <li>&bull; <strong>The Drop:</strong> Visualize the perineum dropping downward (like beginning urination). Release muscle tension completely for 2-3 seconds.[5]</li>
+                                <li>&bull; <strong>The Neutral Exhale:</strong> Exhale slowly, letting the muscles rebound naturally. Squeezing or tightening is strictly prohibited.[5]</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            engineering: {
+                title: "SYSTEMS ENGINEERING & APPLIED AI BLUEPRINT",
+                content: `
+                    <div class="space-y-4">
+                        <div class="space-y-2">
+                            <h4 class="font-bold text-cyan-400">LangGraph Agentic Loop StateGraph [6, 11, 17]</h4>
+                            <p class="text-xs text-slate-400">Instead of linear APIs, agentic loops use the LLM to dynamically call tools and observe outcomes. Compile graphs using a state-passing layout:</p>
+                            <pre class="bg-slate-950 p-3 rounded-lg text-[10px] font-mono text-emerald-400 border border-slate-850 overflow-x-auto">
+from typing import TypedDict, List
+from langgraph.graph import StateGraph, END
+
+class AgentWorkflowState(TypedDict):
+    task_goal: str
+    acquired_findings: List[str]
+    compiled_report: str
+
+workflow = StateGraph(AgentWorkflowState)
+workflow.add_node("planner", task_planning_node)
+workflow.add_node("search_engine", external_search_node)
+workflow.set_entry_point("planner")
+workflow.add_edge("planner", "search_engine")
+workflow.add_edge("search_engine", END)
+app = workflow.compile()</pre>
+                        </div>
+
+                        <div class="space-y-2 border-t border-slate-800 pt-3">
+                            <h4 class="font-bold text-cyan-400">The 6-Step System Design Interview (SDI) Template [9, 7]</h4>
+                            <ol class="space-y-2 text-xs list-decimal pl-5">
+                                <li><strong>Requirements Clarification:</strong> Define functional scope and boundary conditions (e.g., Timeline generation read/write ratios).[7]</li>
+                                <li><strong>Back-of-the-Envelope Estimation:</strong> Calculate scaling parameters (Expected QPS, Daily Active Users, storage capacity, and network bandwidth).[7]</li>
+                                <li><strong>System API Definition:</strong> Establish interface parameters, gRPC signatures, and JSON request/response payloads.[7]</li>
+                                <li><strong>Data Model Design:</strong> Relational SQL for atomic transactions vs. sharded NoSQL documents.[12, 7]</li>
+                                <li><strong>High-Level Architecture Design:</strong> Sketch block diagrams (CDN, Load Balancers, caches, databases, queue partitions).[7]</li>
+                                <li><strong>Detailed Subsystem Deep Dive:</strong> Discuss sharding, replication lags, caching strategies, and fault recovery.[12]</li>
+                            </ol>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        function openRefModal(key) {
+            const data = referenceDatabase[key];
+            if (!data) return;
+
+            document.getElementById("modal-title").innerText = data.title;
+            document.getElementById("modal-content").innerHTML = data.content;
+            document.getElementById("db-modal").classList.remove("hidden");
+
+            // Apply MathJax typesetting dynamically if LaTeX elements exist
+            if (window.MathJax) {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        function closeRefModal() {
+            document.getElementById("db-modal").classList.add("hidden");
+        }
+
+        // INITIAL BOOT LOAD UP
+        window.onload = function() {
+            loadState();
+        };
+    </script>
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="[https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js](https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js)"></script>
+
+</body>
+</html>
